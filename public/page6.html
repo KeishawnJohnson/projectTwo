@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sign-Up Today!</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script scr="js/client.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <!-- Sign-Up Card-->
+      <div class="col-lg-3">
+        <div class="card card-default">
+          <div class="card-header">
+            Please Enter in Parameters
+          </div>
+
+          <form class="form-inline">
+            <label class="season-input" for="seasonid">Season</label>
+            <select class="custom-select my-1 mr-sm-2" id="seasonid">
+              <option selected>Choose...</option>
+              <option value="Summer">Summer</option>
+              <option value="Spring">Spring</option>
+              <option value="Winter">Winter</option>
+              <option value="Fall">Fall</option>
+            </select>
+            <form class="form-inline">
+              <label class="occassion-input" for="inlineFormCustomSelectPref">Occassion</label>
+              <select class="custom-select my-1 mr-sm-2" id="occid">
+                <option selected>Choose...</option>
+                <option value="Casual">Casual</option>
+                <option value="Formal">Formal</option>
+              </select>
+              <button class="btn btn-default" id="find-fit" type="submit">Submit</button>
+            </form>
+        </div>
+      </div>
+      <div class="col-lg">
+        <div class="card bg-light mb-3" style="max-width: 18rem;">
+          <div class="card-header">Accessory</div>
+          <div class="card-body">
+            <h5 class="card-title">Title</h5>
+            <p class="card-text">Picture 1</p>
+          </div>
+        </div>
+        <div class="card bg-light mb-3" style="max-width: 18rem;">
+          <div class="card-header">Top</div>
+          <div class="card-body">
+            <h5 class="card-title">Title</h5>
+            <p class="card-text">Picture 2</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg">
+        <div class="card bg-light mb-3" style="max-width: 18rem;">
+          <div class="card-header">Bottom</div>
+          <div class="card-body">
+            <h5 class="card-title">Title</h5>
+            <p class="card-text">Picture 3</p>
+          </div>
+        </div>
+        <div class="card bg-light mb-3" style="max-width: 18rem;">
+          <div class="card-header">Shoes</div>
+          <div class="card-body">
+            <h5 class="card-title">Title</h5>
+            <p class="card-text">Picture 4</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card bg-light mb-3">
+          <div class="card-header">Outfit Generated</div>
+          <div class="card-body">
+            <h5 class="card-title"><u>Top + Bottom + Shoes + Accessories</u></h5>
+            <p class="card-text">Pic 1 + Pic 2 + Pic 3 + Pic 4 </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Capture Button Click
+    $("#find-fit").on("click", function (event) {
+      // prevent page from refreshing when form tries to submit itself
+      event.preventDefault();
+      var seasonVar = $("#seasonid").val();
+      var occidVar = $("#occid").val();
+      console.log(seasonVar);
+      console.log(occidVar);
+
+      var clothSearch = {
+        season: seasonVar,
+        occasion: occidVar
+      };
+      console.log("Object-- " + clothSearch)
+      $.ajax("/fiats/" + seasonVar + "/" + occidVar , {
+        type: "GET",
+        data: clothSearch
+      }).then(function (data) {
+        console.log(data)
+        location.reload();
+      });
+    });
+  </script>
+</body>

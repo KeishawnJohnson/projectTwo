@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign-Up Today!</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <br>
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+      <h1 class="text-center">Clothes Uplaoder</h1>
+    </div>
+    <div class="row">
+      <!-- Sign-Up Card-->
+      <div class="col-lg-12">
+        <div class="card card-default">
+          <div class="card-header">
+            Add in Attributes
+          </div>
+          <div class="card-body">
+            <!-- Sign-up Form (note the various input "types")-->
+            <form role="form">
+              <form class="form-inline">
+                <label class="color-input" for="colorid">Color</label>
+                <select class="custom-select my-1 mr-sm-2" id="colorid">
+                  <option selected>Select color</option>
+                  <option value="Red">Red</option>
+                  <option value="Blue">Blue</option>
+                  <option value="Yellow">Yellow</option>
+                  <option value="Orange">Orange</option>
+                  <option value="Green">Green</option>
+                  <option value="Purple">Purple</option>
+                  <option value="Brown">Brown</option>
+                  <option value="White">White</option>
+                  <option value="Grey">Gray/Silver</option>
+                  <option value="Black">Black</option>
+                </select>
+                <form class="form-inline">
+                  <label class="sex-input" for="inlineFormCustomSelectPref">Gender</label>
+                  <select class="custom-select my-1 mr-sm-2" id="sexid">
+                    <option selected>Select your gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Unisex">Unisex</option>
+                  </select>
+                  <form class="form-inline">
+                    <label class="season-input" for="seasonid">Season</label>
+                    <select class="custom-select my-1 mr-sm-2" id="seasonid">
+                      <option selected>Select season</option>
+                      <option value="Spring/summer">Spring/summer</option>
+                      <option value="Fall/winter">Fall/winter</option>
+                    </select>
+                    <form class="form-inline">
+                      <label class="type-input" for="seasonid">Type of clothes</label>
+                      <select class="custom-select my-1 mr-sm-2" id="typeid">
+                        <option selected>Select type of clothes...</option>
+                        <option value="Accessory">Accessory</option>
+                        <option value="Top">Top</option>
+                        <option value="Bottom">Bottom</option>
+                        <option value="Shoes">Shoes</option>
+                        
+                      </select>
+                      <form class="form-inline">
+                        <label class="occassion-input" for="inlineFormCustomSelectPref">Occassion</label>
+                        <select class="custom-select my-1 mr-sm-2" id="occasionid">
+                          <option selected>Select occasions</option>
+                          <option value="Casual">Casual</option>
+                          <option value="Formal">Formal</option>
+                          <form>
+                            <div class="form-group row">
+                              <div class="form-group row">
+                                <label for="url-input" class="col-sm-2 col-form-label">URL of Image:</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="inputPassword"
+                                    placeholder="place image url here">
+                                </div>
+                              </div>
+                          </form>
+                          <button class="btn btn-default" id="add-cloth" type="submit">Submit</button>
+                      </form>
+          </div>
+        </div>
+      </div>
+</div>
+</body>
+<!-- JavaScript -->
+<script>
+  // Capture Button Click
+  $("#add-cloth").on("click", function (event) {
+    // prevent page from refreshing when form tries to submit itself
+    event.preventDefault();
+    // Capture user inputs and store them into variables
+    var newOutfit = {
+      type: $("#typeid").val(),
+      color: $("#colorid").val(),
+      season: $("#seasonid").val(),
+      occasion: $("#occasionid").val(),
+      gender: $("#sexid").val(),
+      url: $("#inputPassword").val()
+    };
+    console.log(newOutfit);
+    // Send the POST request
+    $.ajax("/api/create", {
+    type: "POST",
+    data: newOutfit
+    }).then(function() {
+      console.log("created new outfit");
+      // reload the page to get the updated list
+      location.reload();
+        // clear the form when saving
+        $("#color-input").val("");
+        $("#sex-input").val("");
+        $("#season-input").val("");
+        $("#type-input").val("");
+        $("#occasion-input").val("");
+        $("#url-input").val("");
+  });
+});
+</script>
+</html>
